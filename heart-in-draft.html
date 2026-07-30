@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heart in Draft — Prom Night</title>
+<meta name="description" content="Heart in Draft, an album by Prom Night.">
+
+<!-- ============================================================
+     HOW TO EDIT THIS PAGE
+     ============================================================
+     1. Put your audio files in the SAME FOLDER as this file.
+        Name them: 01.mp3, 02.mp3, 03.mp3 ... 16.mp3
+        (MP3 is best — WAV files are 10x bigger and slow to load.)
+
+     2. Put your cover art in the same folder, named: cover.png
+
+     3. To change titles, order, or lyrics: scroll to the bottom
+        of this file and edit the TRACKS list. Everything else
+        updates by itself.
+
+     4. To change the liner notes or dedication: search this file
+        for the word EDIT and change the text between the tags.
+     5. This page shares its look with index.html via style.css.
+     ============================================================ -->
+
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="sheet">
+
+  <a class="backlink" href="index.html">&larr; Prom Night</a>
+
+  <header class="masthead">
+    <img class="cover" id="cover" src="cover.png" alt="Heart in Draft album cover">
+    <div class="titleblock">
+      <h1>Heart <em>in</em> Draft</h1>
+      <p class="artist"><a href="index.html">Prom Night</a></p>
+      <div class="controls">
+        <button class="playall" id="playall">Play the record</button>
+        <span class="count" id="count"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- EDIT — liner notes. Your published Bandcamp text, verbatim. -->
+  <section class="notes ruled">
+    <div class="gutter">notes</div>
+    <div class="body">
+      <p><em>Heart in Draft</em> is a collection of poems that got out of hand.</p>
+
+      <p>They were written over years, on legal pads and in the Notes app and
+      once, allegedly, on the back of a motion for summary judgment. They were
+      meant to stay on the page. Then I discovered you could hand a poem to a
+      machine and get a song back, and I did that roughly a thousand times, and
+      these sixteen are the ones that survived. The machine sang; the words are
+      mine. Every chorus I could keep, I kept; every chorus I couldn't, I fought
+      until it surrendered.</p>
+
+      <p>What they're about is the usual: love found and love endured, the people
+      you lose and the ones you erase on purpose, a rooster in Key West, a bar on
+      St. Patrick's Day, a kitchen where two careful people learn a language for
+      what they can't say. There's a lot of water in here &mdash; creeks, tides,
+      a boat named after a siren. There's a lot of leaving, and a lot of
+      not-leaving. If the record has an argument, it's that the wanting to go and
+      the choosing to stay are the same weather.</p>
+
+      <p>I make no claims about the singer, who is a machine and does not exist,
+      except in the eighth-rests, where I'd like to think something does.</p>
+
+      <p class="pull">The words are drafts. The heart is real. Mostly.</p>
+
+      <hr class="rule-short">
+
+      <p class="dedication">This is dedicated to: Hannah, Emerson, Dot, and
+      Scott.<br>Your lives are the best poems I know.</p>
+
+      <p class="signoff">&mdash; Prom Night<br>(f/k/a several worse names)</p>
+    </div>
+  </section>
+  <!-- /EDIT -->
+
+  <ol class="tracks" id="tracks"></ol>
+
+  <footer class="colophon ruled">
+    <div class="gutter">§</div>
+    <div class="body">
+      <p>Words by Johnny Bardine. Vocals by Sunoyama. Recorded nowhere.</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* ============================================================
+   THE TRACKS — edit this list and nothing else.
+
+   title  : what shows on the page
+   file   : the audio filename, in this same folder
+   lyric  : the words. Leave as "" if you don't want lyrics shown.
+            Use a backtick-quoted block for multi-line lyrics.
+   ============================================================ */
+
+const TRACKS = [
+  { title:"Autobiography",                  file:"01.mp3", lyric:`` },
+  { title:"Sparrow",                        file:"02.mp3", lyric:`` },
+  { title:"Battlefield",                    file:"03.mp3", lyric:`` },
+  { title:"Elegy in the Form of Dream I",   file:"04.mp3", lyric:`` },
+  { title:"The Secret City",                file:"05.mp3", lyric:`` },
+  { title:"Not Dead Yet",                   file:"06.mp3", lyric:`` },
+  { title:"Neruda in Prospect Park",        file:"07.mp3", lyric:`` },
+  { title:"Elegy in the Form of Dream II",  file:"08.mp3", lyric:`` },
+  { title:"Heart in Draft",                 file:"09.mp3", lyric:`` },
+  { title:"Irish Goodbye",                  file:"10.mp3", lyric:`` },
+  { title:"26 Words for Snow",              file:"11.mp3", lyric:`` },
+  { title:"Hard Things",                    file:"12.mp3", lyric:`` },
+  { title:"The Reckoning",                  file:"13.mp3", lyric:`` },
+  { title:"Elegy in the Form of Dream III", file:"14.mp3", lyric:`` },
+  { title:"La Cucina",                      file:"15.mp3", lyric:`` },
+  { title:"Love Lies Bleeding",             file:"16.mp3", lyric:`` },
+];
+
+/* ---------- nothing below here needs editing ---------- */
+
+const listEl   = document.getElementById("tracks");
+const countEl  = document.getElementById("count");
+const playAll  = document.getElementById("playall");
+const audio    = new Audio();
+audio.preload  = "metadata";
+
+let current = -1;
+const rows = [];
+
+const pad = n => String(n).padStart(2, "0");
+const clock = s =>
+  (!isFinite(s) || s <= 0) ? "—" : Math.floor(s/60) + ":" + pad(Math.round(s%60));
+
+TRACKS.forEach((t, i) => {
+  const li = document.createElement("li");
+  li.className = "track";
+
+  const row = document.createElement("button");
+  row.className = "row";
+  row.setAttribute("aria-label", "Play " + t.title);
+  row.innerHTML =
+    '<span class="num">' + pad(i+1) + '</span>' +
+    '<span class="name"></span>' +
+    '<span class="meta"><span class="time">—</span></span>';
+  row.querySelector(".name").textContent = t.title;
+
+  const meta = row.querySelector(".meta");
+  const timeEl = row.querySelector(".time");
+
+  li.appendChild(row);
+
+  // lyric fold-out
+  let lyricBtn = null;
+  if (t.lyric && t.lyric.trim()) {
+    lyricBtn = document.createElement("button");
+    lyricBtn.className = "lyricbtn";
+    lyricBtn.type = "button";
+    lyricBtn.textContent = "words";
+    lyricBtn.setAttribute("aria-expanded", "false");
+
+    const wrap = document.createElement("div");
+    wrap.className = "lyric";
+    const rail = document.createElement("div");
+    rail.className = "rail";
+    const pre = document.createElement("pre");
+    pre.textContent = t.lyric.trim();
+    wrap.append(rail, pre);
+    li.appendChild(wrap);
+
+    lyricBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      const open = li.classList.toggle("is-open");
+      lyricBtn.setAttribute("aria-expanded", String(open));
+      lyricBtn.textContent = open ? "close" : "words";
+    });
+  }
+
+  // read duration without loading the whole file
+  const probe = new Audio();
+  probe.preload = "metadata";
+  probe.src = t.file;
+  probe.addEventListener("loadedmetadata", () => {
+    timeEl.textContent = clock(probe.duration);
+    if (lyricBtn) meta.insertBefore(lyricBtn, timeEl);
+  });
+  probe.addEventListener("error", () => {
+    timeEl.remove();
+    const warn = document.createElement("span");
+    warn.className = "missing";
+    warn.textContent = "no audio file";
+    meta.appendChild(warn);
+    row.disabled = true;
+    if (lyricBtn) meta.insertBefore(lyricBtn, warn);
+  });
+
+  row.addEventListener("click", () => {
+    if (current === i && !audio.paused) { audio.pause(); return; }
+    if (current === i && audio.paused)  { audio.play();  return; }
+    play(i);
+  });
+
+  rows.push({ li, name: row.querySelector(".name") });
+  listEl.appendChild(li);
+});
+
+countEl.textContent = TRACKS.length + " tracks";
+
+function play(i) {
+  current = i;
+  rows.forEach((r, n) => {
+    r.li.classList.toggle("is-cued", n === i);
+    if (n !== i) r.name.style.setProperty("--p", 0);
+  });
+  audio.src = TRACKS[i].file;
+  audio.play().catch(() => {});
+}
+
+audio.addEventListener("timeupdate", () => {
+  if (current < 0 || !isFinite(audio.duration)) return;
+  rows[current].name.style.setProperty("--p", audio.currentTime / audio.duration);
+});
+
+audio.addEventListener("ended", () => {
+  if (current + 1 < TRACKS.length) play(current + 1);
+  else {
+    rows.forEach(r => { r.li.classList.remove("is-cued"); r.name.style.setProperty("--p", 0); });
+    current = -1;
+  }
+});
+
+playAll.addEventListener("click", () => {
+  if (current >= 0 && !audio.paused) { audio.pause(); playAll.textContent = "Resume"; return; }
+  if (current >= 0 && audio.paused)  { audio.play();  playAll.textContent = "Pause";  return; }
+  play(0);
+  playAll.textContent = "Pause";
+});
+
+audio.addEventListener("play",  () => playAll.textContent = "Pause");
+audio.addEventListener("pause", () => playAll.textContent = "Resume");
+
+// hide the cover frame gracefully if cover.png isn't there yet
+document.getElementById("cover").addEventListener("error", e => {
+  e.target.removeAttribute("src");
+  e.target.style.background = "var(--paper-deep)";
+});
+
+document.addEventListener("keydown", e => {
+  if (e.code === "Space" && e.target === document.body) {
+    e.preventDefault();
+    playAll.click();
+  }
+});
+</script>
+</body>
+</html>

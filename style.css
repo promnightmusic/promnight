@@ -1,0 +1,380 @@
+/* ============================================================
+   PROM NIGHT — shared styles for index.html and the album page.
+   You shouldn't need to touch this file.
+   ============================================================ */
+
+:root{
+  --paper:#efeae0;
+  --paper-deep:#e7e1d5;
+  --ink:#1c1a17;
+  --slate:#5a6169;
+  --ghost:#c9c2b4;
+  --navy:#0b1020;      /* from the logo */
+  --rose:#a8515f;      /* the logo's pink, deepened to read on paper */
+  --gold:#c2a03a;      /* the logo's underline */
+  --oxblood:var(--rose);
+  --measure:34rem;
+  --margin-w:4.25rem;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Cormorant Garamond",Georgia,serif;
+  font-size:clamp(1.0625rem,1rem + 0.4vw,1.25rem);
+  font-weight:400;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+
+.sheet{
+  max-width:52rem;
+  margin:0 auto;
+  padding:clamp(1.5rem,4vw,4.5rem) clamp(1.125rem,4vw,3rem) 6rem;
+}
+
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--oxblood);outline-offset:3px}
+
+a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--oxblood)}
+
+/* ---------- ruled manuscript margin ---------- */
+.ruled{display:grid;grid-template-columns:var(--margin-w) 1fr;column-gap:0}
+.ruled > .gutter{
+  border-right:1px solid var(--ghost);
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  line-height:1.7;
+  color:var(--slate);
+  padding:.42rem .9rem 0 0;
+  text-align:right;
+  letter-spacing:.02em;
+}
+.ruled > .body{padding-left:clamp(.9rem,2.5vw,1.6rem)}
+
+.label{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.6875rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--slate);
+}
+.epigraph{font-style:italic;color:var(--slate)}
+.dedication{font-style:italic}
+
+/* ============================================================
+   BAND PAGE
+   ============================================================ */
+
+/* the banner is the hero — it already carries the name and the tagline */
+.banner{
+  display:block;
+  width:100%;
+  height:auto;
+  margin-bottom:clamp(1.5rem,4vw,2.75rem);
+  background:var(--navy);
+}
+/* crop it to a wider, shallower strip instead */
+.banner.strip{aspect-ratio:21/9;object-fit:cover;object-position:center 42%}
+
+/* the scrawl, used small as a signature stamp */
+.stamp{
+  display:block;
+  width:7.5rem;
+  aspect-ratio:1/1;
+  height:auto;
+  background:var(--navy);
+  margin:0 0 1.25rem;
+}
+
+.visually-hidden{
+  position:absolute;
+  width:1px;height:1px;
+  margin:-1px;padding:0;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  white-space:nowrap;
+  border:0;
+}
+
+.wordmark{
+  padding-bottom:clamp(1.5rem,4vw,2.5rem);
+  border-bottom:1px solid var(--ghost);
+}
+.wordmark h1{
+  font-size:clamp(3rem,2rem + 8vw,7rem);
+  font-weight:300;
+  line-height:.9;
+  margin:0 0 .5rem;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+}
+.lineage{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  line-height:1.85;
+  color:var(--slate);
+  margin:0;
+  max-width:26rem;
+}
+
+.block{padding:clamp(1.75rem,5vw,3rem) 0;border-bottom:1px solid var(--ghost)}
+.block .body{max-width:var(--measure)}
+.block p{margin:0 0 1.05em}
+.block p:last-child{margin-bottom:0}
+
+/* discography */
+.releases{list-style:none;margin:0;padding:0}
+.release{
+  display:grid;
+  grid-template-columns:minmax(0,9.5rem) 1fr;
+  gap:clamp(1.1rem,3vw,2rem);
+  align-items:start;
+  padding:clamp(1.5rem,4vw,2.25rem) 0;
+  border-bottom:1px solid var(--ghost);
+}
+.release:first-child{border-top:1px solid var(--ghost)}
+.release-art{
+  width:100%;
+  aspect-ratio:1/1;
+  background:var(--paper-deep);
+  border:1px solid var(--ghost);
+  object-fit:cover;
+  display:block;
+}
+.release-title{
+  font-size:clamp(1.5rem,1.2rem + 1.6vw,2.25rem);
+  font-weight:600;
+  line-height:1.05;
+  margin:0 0 .3rem;
+  letter-spacing:-.01em;
+}
+.release-title a{text-decoration:none}
+.release-title a:hover{text-decoration:underline}
+.release-meta{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  letter-spacing:.06em;
+  color:var(--slate);
+  margin:0 0 .9rem;
+}
+.release-note{margin:0 0 1.1rem;max-width:28rem}
+.listen{
+  display:inline-block;
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  border:1px solid var(--ink);
+  padding:.6rem 1.1rem;
+  text-decoration:none;
+  transition:background .15s ease,color .15s ease;
+}
+.listen:hover{background:var(--ink);color:var(--paper)}
+.forthcoming .release-title{font-weight:300;font-style:italic;color:var(--slate)}
+
+.elsewhere{list-style:none;margin:0;padding:0}
+.elsewhere li{margin:0 0 .5rem}
+
+/* ============================================================
+   ALBUM PAGE
+   ============================================================ */
+
+.backlink{
+  display:inline-block;
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.6875rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--slate);
+  text-decoration:none;
+  margin-bottom:clamp(1.5rem,4vw,2.5rem);
+}
+.backlink:hover{color:var(--ink)}
+
+.masthead{
+  display:grid;
+  grid-template-columns:minmax(0,15rem) 1fr;
+  gap:clamp(1.25rem,4vw,2.75rem);
+  align-items:end;
+  padding-bottom:clamp(1.5rem,4vw,2.5rem);
+  border-bottom:1px solid var(--ghost);
+}
+.cover{
+  width:100%;
+  aspect-ratio:1/1;
+  background:var(--paper-deep);
+  border:1px solid var(--ghost);
+  object-fit:cover;
+  display:block;
+}
+.titleblock h1{
+  font-size:clamp(2.5rem,2rem + 4.5vw,4.75rem);
+  font-weight:600;
+  line-height:.94;
+  margin:0 0 .35em;
+  letter-spacing:-.015em;
+}
+.titleblock h1 em{font-style:italic;font-weight:300;letter-spacing:.005em}
+.artist{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--slate);
+  margin:0 0 1.4rem;
+}
+.artist a{color:var(--slate);text-decoration:none}
+.artist a:hover{color:var(--ink)}
+.controls{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;align-items:center}
+
+.playall{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  border:1px solid var(--ink);
+  padding:.6rem 1.1rem;
+  transition:background .15s ease,color .15s ease;
+}
+.playall:hover{background:var(--ink);color:var(--paper)}
+.count{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  letter-spacing:.06em;
+  color:var(--slate);
+}
+
+.notes{padding:clamp(1.75rem,5vw,3rem) 0;border-bottom:1px solid var(--ghost)}
+.notes .body{max-width:var(--measure)}
+.notes p{margin:0 0 1.05em}
+.notes p:last-child{margin-bottom:0}
+
+.tracks{list-style:none;margin:0;padding:0}
+.track{border-bottom:1px solid var(--ghost)}
+
+.row{
+  display:grid;
+  grid-template-columns:var(--margin-w) 1fr auto;
+  align-items:baseline;
+  width:100%;
+  text-align:left;
+  padding:0;
+}
+.num{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  color:var(--slate);
+  text-align:right;
+  padding:1.15rem .9rem 1.15rem 0;
+  border-right:1px solid var(--ghost);
+  align-self:stretch;
+  letter-spacing:.02em;
+}
+.name{
+  position:relative;
+  padding:1.05rem clamp(.9rem,2.5vw,1.6rem) 1.1rem;
+  font-size:1.18em;
+}
+/* the signature: the playing track underlines itself in red ink */
+.name::after{
+  content:"";
+  position:absolute;
+  left:clamp(.9rem,2.5vw,1.6rem);
+  right:clamp(.9rem,2.5vw,1.6rem);
+  bottom:.72rem;
+  height:1.5px;
+  background:var(--gold);
+  transform:scaleX(var(--p,0));
+  transform-origin:left;
+  opacity:0;
+}
+.track.is-cued .name::after{opacity:1}
+.track.is-cued .name{color:var(--oxblood)}
+
+.meta{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:1.15rem 0;
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  color:var(--slate);
+  white-space:nowrap;
+}
+.time{min-width:2.6rem;text-align:right;font-variant-numeric:tabular-nums}
+.lyricbtn{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.6875rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--slate);
+  border-bottom:1px solid var(--ghost);
+  padding-bottom:1px;
+}
+.lyricbtn:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+.lyric{
+  display:none;
+  grid-template-columns:var(--margin-w) 1fr;
+  padding-bottom:2rem;
+}
+.track.is-open .lyric{display:grid}
+.lyric .rail{border-right:1px solid var(--ghost)}
+.lyric pre{
+  margin:0;
+  padding:.25rem clamp(.9rem,2.5vw,1.6rem) 0;
+  font:inherit;
+  font-size:1rem;
+  white-space:pre-wrap;
+  max-width:var(--measure);
+  color:var(--ink);
+}
+
+.missing{color:var(--oxblood);font-style:italic;font-size:.9rem}
+
+.colophon{
+  padding-top:2.5rem;
+  color:var(--slate);
+  font-size:.95rem;
+}
+.colophon .body{max-width:var(--measure)}
+.colophon a{color:var(--slate)}
+.colophon a:hover{color:var(--ink)}
+
+/* ---------- small screens ---------- */
+@media (max-width:34rem){
+  :root{--margin-w:2.5rem}
+  .masthead{grid-template-columns:1fr}
+  .cover{max-width:14rem}
+  .release{grid-template-columns:1fr}
+  .release-art{max-width:11rem}
+  .meta{gap:.7rem}
+  .lyricbtn{font-size:.625rem;letter-spacing:.08em}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+}
+
+/* sign-off, as at the end of a set of notes */
+.signoff{
+  font-family:"Courier Prime",ui-monospace,monospace;
+  font-size:.75rem;
+  letter-spacing:.06em;
+  color:var(--slate);
+  line-height:1.8;
+  margin-top:1.6rem;
+}
+.rule-short{
+  border:0;
+  border-top:1px solid var(--ghost);
+  width:6rem;
+  margin:1.6rem 0;
+}
+.pull{font-style:italic}
